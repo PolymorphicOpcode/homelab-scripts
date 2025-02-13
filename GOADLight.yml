@@ -1,0 +1,65 @@
+ludus:
+  - vm_name: "{{ range_id }}-GOAD-DC01"
+    hostname: "{{ range_id }}-DC01"
+    template: win2019-server-x64-template
+    vlan: 10
+    ip_last_octet: 10
+    ram_gb: 4
+    cpus: 2
+    windows:
+      sysprep: true
+    roles:
+    - aleemladha.ludus_wazuh_agent
+    role_vars:
+     ludus_wazuh_siem_server: 10.3.10.99
+     wazuh_install_location: "C:\\Wazuh"
+     wazuh_agent_install_package: "https://packages.wazuh.com/4.x/windows/wazuh-agent-4.10.1-1.msi"
+     wazuh_manager_host: 10.3.10.99
+  - vm_name: "{{ range_id }}-GOAD-DC02"
+    hostname: "{{ range_id }}-DC02"
+    template: win2019-server-x64-template
+    vlan: 10
+    ip_last_octet: 11
+    ram_gb: 4
+    cpus: 2
+    windows:
+      sysprep: true
+    roles:
+    - aleemladha.ludus_wazuh_agent
+    role_vars:
+      ludus_wazuh_siem_server: 10.3.10.99
+      wazuh_install_location: "C:\\Wazuh"
+      wazuh_agent_install_package: "https://packages.wazuh.com/4.x/windows/wazuh-agent-4.10.1-1.msi"
+      wazuh_manager_host: 10.3.10.99
+  - vm_name: "{{ range_id }}-GOAD-SRV02"
+    hostname: "{{ range_id }}-SRV02"
+    template: win2019-server-x64-template
+    vlan: 10
+    ip_last_octet: 22
+    ram_gb: 4
+    cpus: 2
+    windows:
+      sysprep: true
+    roles:
+    - aleemladha.ludus_wazuh_agent
+    role_vars:
+      ludus_wazuh_siem_server: 10.3.10.99
+      wazuh_install_location: "C:\\Wazuh"
+      wazuh_agent_install_package: "https://packages.wazuh.com/4.x/windows/wazuh-agent-4.10.1-1.msi"
+      wazuh_manager_host: 10.3.10.99
+  - vm_name: "{{ range_id }}-kali"
+    hostname: "{{ range_id }}-kali"
+    template: kali-x64-desktop-template
+    vlan: 10
+    ip_last_octet: 99
+    ram_gb: 4
+    cpus: 4
+    linux: true
+    testing:
+      snapshot: false
+      block_internet: false
+    roles:
+    - aleemladha.wazuh_server_install
+    role_vars:
+      wazuh_admin_password: Wazuh-123
+      wazuh_install_script_url: "https://packages.wazuh.com/4.10/wazuh-install.sh"
